@@ -3,7 +3,9 @@ package com.example.product.controller;
 import com.example.product.model.Product;
 import com.example.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.ui.Model;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -19,13 +21,18 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
+    @GetMapping("/products/page")
+    public Page<Product> getAllProductsPage(Pageable pageable) {
+        return productService.getAllProductsPage(pageable);
+    }
+
     @GetMapping("/products/{id}")
-    public Product getById(@PathVariable Long id, Model model) {
+    public Product getById(@PathVariable Long id) {
         return productService.getById(id);
     }
 
     @PostMapping("/products")
-    public void createProduct(@RequestBody Product product) {
+    public void createProduct(@RequestBody @Validated Product product) {
         productService.createProduct(product);
     }
 
