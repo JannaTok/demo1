@@ -15,34 +15,27 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping("/products")
-    public String getAllProducts(Model model) {
-        List<Product> products = productService.getAllProducts();
-        model.addAttribute("products", products);
-        return "products";
+    public List<Product> getAllProducts() {
+        return productService.getAllProducts();
     }
 
     @GetMapping("/products/{id}")
-    public String getById(@PathVariable Long id, Model model) {
-        Product product = productService.getById(id);
-        model.addAttribute("product", product);
-        return "product";
+    public Product getById(@PathVariable Long id, Model model) {
+        return productService.getById(id);
     }
 
     @PostMapping("/products")
-    public String createProduct(Product product) {
+    public void createProduct(@RequestBody Product product) {
         productService.createProduct(product);
-        return "redirect:/products";
     }
 
     @PutMapping("/products/{id}")
-    public String updateProduct(@PathVariable Long id, Product product) {
+    public void updateProduct(@PathVariable Long id, Product product) {
         productService.updateProduct(id, product);
-        return "redirect:/products";
     }
 
     @DeleteMapping("/products/{id}")
-    public String deleteById (@PathVariable Long id) {
+    public void deleteById (@PathVariable Long id) {
         productService.deleteById(id);
-        return "redirect:/products";
     }
 }
